@@ -83,17 +83,65 @@ select * from teen_mental_health
 where stress_level > (select avg(stress_level) from teen_mental_health);
 
 -- 20. Students with highest addiction level
+select * from teen_mental_health
+where addiction_level = (select max(addiction_level) from teen_mental_health);
 
 -- 21. Which platform has highest average anxiety?
+select platform_usage, avg(anxiety_level) as avg_anxiety
+from teen_mental_health
+group by platform_usage
+order by avg_anxiety desc
+limit 1;
+
 -- 22. Find students sleeping less than 5 hours and stress > 7
+select * from teen_mental_health
+where sleep_hours > 5 and stress_level > 7;
+
 -- 23. Average academic performance by sleep quality
+select sleep_quality, round(avg(academic_performance), 02) as avg_aca_performance
+from teen_mental_health
+group by sleep_quality;
+
 -- 24. Count depressed students
+select count(*) as total_depressed_student from teen_mental_health
+where depression_label = 1;
+
 -- 25. Find correlation-type analysis
+
 -- 26. Find top 3 highest risk students from each gender
+select * from teen_mental_health;
 -- 27. Find duplicate records
+
 -- 28. Percentage of depressed students
+select round(count(case when depression_label = 1 then 1 end)*100 / count(*),02) as percentage_dep_student
+from teen_mental_health;
+
 -- 29. Find platform with highest average risk score
+select platform_usage, avg(mental_health_risk_score) as highest_avg
+from teen_mental_health
+group by platform_usage
+order by highest_avg desc
+limit 1;
+
 -- 30. Compare male vs female average stress
+select gender, avg(stress_level) from teen_mental_health
+group by gender;
+
 -- Find whether high screen time affects academic performance.
+SELECT 
+    CASE 
+        WHEN daily_social_media_hours >= 5 THEN 'High Screen Time'
+        ELSE 'Low Screen Time'
+    END AS screen_time_category,
+    AVG(academic_performance) AS avg_academic_score
+FROM teen_mental_health
+GROUP BY screen_time_category;
+
 -- Which sleep quality group has highest mental health risk?
+select sleep_quality, avg(mental_health_risk_score) as highest
+from teen_mental_health
+group by sleep_quality
+order by highest desc
+limit 1;
+
 -- Find highly addicted students with poor sleep.
